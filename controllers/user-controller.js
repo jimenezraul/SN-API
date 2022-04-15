@@ -56,7 +56,6 @@ const userController = {
 
   // DELETE /api/users/:id
   deleteUser: (req, res) => {
-    // TODO: delete user's thoughts
     User.findOne({ _id: req.params.id })
       .then((user) => {
         if (!user) {
@@ -64,14 +63,10 @@ const userController = {
           return;
         }
         // delete user's thoughts
-        Thought.deleteMany({ userId: user._id })
-          .then(() => {
-            user.remove();
-            res.json(user);
-          })
-          .catch((err) => {
-            res.status(400).json(err);
-          });
+        Thought.deleteMany({ userId: user._id }).then(() => {
+          user.remove();
+          res.json(user);
+        });
       })
       .catch((err) => {
         res.status(400).json(err);
