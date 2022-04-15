@@ -1,8 +1,18 @@
 const router = require("express").Router();
+const {
+  createThought,
+  getAllThoughts,
+  getThoughtById,
+  updateThought,
+  deleteThought,
+} = require("../../controllers/thought-controller");
 
-router.get("/", (req, res) => {
-  res.json({ message: "Welcome to the thought API!" });
-}
-);
+router.route("/").get(getAllThoughts).post(createThought);
+
+router
+  .route("/:id")
+  .get(getThoughtById)
+  .put(updateThought)
+  .delete(deleteThought);
 
 module.exports = router;
