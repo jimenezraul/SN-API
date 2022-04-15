@@ -5,6 +5,7 @@ const userController = {
   getAllUsers: (req, res) => {
     User.find({})
       .populate({ path: "thoughts" })
+      .populate({ path: "friends" })
       .then((users) => {
         res.json(users);
       })
@@ -42,6 +43,7 @@ const userController = {
   // PUT /api/users/:id
   updateUser: (req, res) => {
     User.findByIdAndUpdate(req.params.id, req.body, { new: true })
+      .populate({ path: "thoughts" })
       .then((user) => {
         if (!user) {
           res.status(404).send({ message: "User not found" });
@@ -72,6 +74,52 @@ const userController = {
         res.status(400).json(err);
       });
   },
+
+  // add friend to friends list
+  addFriend: (req, res) => {
+    User.findByIdAndUpdate(
+      { _id: req.params.id },
+      {
+        $push: {
+          friends: req.params.friendId,
+        },
+      },
+      { new: true }
+    )
+      .then((user) => {
+        if (!user) {
+          res.status(404).send({ message: "User not found" });
+          return;
+        }
+        res.json(user);
+      })
+      .catch((err) => {
+        res.status(400).json(err);
+      });
+  },
+
+  // remove friend from friends list
+  removeFriend: (req, res) => {
+    User.findByIdAndUpdate(
+      { _id: req.params.id },
+      {
+        $pull: {
+          friends: req.params.friendId,
+        },
+      },
+      { new: true }
+    )
+      .then((user) => {
+        if (!user) {
+          res.status(404).send({ message: "User not found" });
+          return;
+        }
+        res.json(user);
+      })
+      .catch((err) => {
+        res.status(400).json(err);
+      });
+  }
 };
 
 module.exports = userController;
