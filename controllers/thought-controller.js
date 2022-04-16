@@ -14,7 +14,7 @@ const thoughtController = {
 
   // GET /api/thoughts/:id
   getThoughtById: (req, res) => {
-    Thought.findOne({_id: req.params.id})
+    Thought.findOne({ _id: req.params.id })
       .then((thought) => {
         if (!thought) {
           res.status(404).send({ message: "Thought not found" });
@@ -62,7 +62,7 @@ const thoughtController = {
       .catch((err) => {
         res.status(400).json(err);
       });
-  },  
+  },
 
   // DELETE /api/thoughts/:id
   deleteThought: (req, res) => {
@@ -77,7 +77,55 @@ const thoughtController = {
       .catch((err) => {
         res.status(400).json(err);
       });
-  }
+  },
+
+  // POST /api/thoughts/:id/reactions
+  createReaction: (req, res) => {
+    Thought.findByIdAndUpdate(
+      req.params.id,
+      {
+        $push: {
+          reactions: req.body,
+        },
+      },
+      { new: true }
+    )
+      .then((thought) => {
+        if (!thought) {
+          res.status(404).send({ message: "Thought not found" });
+          return;
+        }
+        res.json(thought);
+      })
+      .catch((err) => {
+        res.status(400).json(err);
+      });
+  },
+
+  // delete /api/thoughts/:id/reactions/:reactionId
+  deleteReaction: (req, res) => {
+    Thought.findByIdAndUpdate(
+      req.params.id,
+      {
+        $pull: {
+          reactions: {
+            reactionId: req.params.reactionId,
+          },
+        },
+      },
+      { new: true }
+    )
+      .then((thought) => {
+        if (!thought) {
+          res.status(404).send({ message: "Thought not found" });
+          return;
+        }
+        res.json(thought);
+      })
+      .catch((err) => {
+        res.status(400).json(err);
+      });
+  },
 };
 
 module.exports = thoughtController;

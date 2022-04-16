@@ -6,6 +6,12 @@ const userController = {
     User.find({})
       .populate({ path: "thoughts" })
       .populate({ path: "friends" })
+      .populate({
+        path: "friends",
+        populate: {
+          path: "friends",
+        },
+      })
       .then((users) => {
         res.json(users);
       })
@@ -17,6 +23,19 @@ const userController = {
   // GET /api/users/:id
   getUserById: (req, res) => {
     User.findById(req.params.id)
+      .populate({ path: "thoughts" })
+      .populate({
+        path: "friends",
+        populate: {
+          path: "thoughts",
+        },
+      })
+      .populate({
+        path: "friends",
+        populate: {
+          path: "friends",
+        },
+      })
       .then((user) => {
         if (!user) {
           res.status(404).send({ message: "User not found" });
@@ -119,7 +138,7 @@ const userController = {
       .catch((err) => {
         res.status(400).json(err);
       });
-  }
+  },
 };
 
 module.exports = userController;
