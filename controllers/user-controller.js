@@ -84,7 +84,7 @@ const userController = {
           return;
         }
         // delete user's thoughts
-        Thought.deleteMany({ userId: user._id }).then(() => {
+        Thought.deleteMany({ _id: { $in: user.thoughts } }).then(() => {
           user.remove();
           res.json(user);
         });
