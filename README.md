@@ -1,14 +1,14 @@
-# Social Media RESTful API
+# Social Network RESTful API
 
 ![badge](https://img.shields.io/badge/license-MIT-brightgreen)
 
 ## Description
 
-This is a social media RESTful API. This API allows you to create, read, update, and delete users, thoughts, and reactions. Also, you can add users to your friends list and remove them.
+This is a social network RESTful API. This API allows you to create, read, update, and delete users, thoughts, and reactions. Also, you can add users to your friends list and remove them.
 
 ## Table of Contents
 
-- [Social Media RESTful API](#social-media-restful-api)
+- [Social Network RESTful API](#social-network-restful-api)
   - [Description](#description)
   - [Table of Contents](#table-of-contents)
   - [Technologies Used](#technologies-used)
