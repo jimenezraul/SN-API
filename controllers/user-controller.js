@@ -61,7 +61,10 @@ const userController = {
 
   // PUT /api/users/:id
   updateUser: (req, res) => {
-    User.findByIdAndUpdate(req.params.id, req.body, { new: true })
+    User.findByIdAndUpdate(req.params.id, req.body, {
+      new: true,
+      runValidators: true,
+    })
       .populate({ path: "thoughts" })
       .then((user) => {
         if (!user) {

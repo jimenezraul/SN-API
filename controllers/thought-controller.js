@@ -38,7 +38,7 @@ const thoughtController = {
               thoughts: _id,
             },
           },
-          { new: true }
+          { new: true, runValidators: true }
         );
       })
       .then((user) => {
@@ -88,7 +88,7 @@ const thoughtController = {
           reactions: req.body,
         },
       },
-      { new: true }
+      { new: true, runValidators: true }
     )
       .then((thought) => {
         if (!thought) {
